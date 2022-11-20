@@ -1,0 +1,15 @@
+section.projects > h3 {
+    width: fit-content;
+    margin: 0 auto 1.25rem auto;
+    position: relative;
+}
+
+section.projects > h3::after {
+    content: "";
+    position: absolute;
+    background-color: teal;
+    width: 100%;
+    height: 2px;
+    bottom: -5px;
+    left: 0;
+}

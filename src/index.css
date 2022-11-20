@@ -8,6 +8,15 @@
   box-sizing: border-box;
 }
 
+body {
+  position: relative;
+  overflow-x: hidden;
+}
+
+body.dark {
+  background-color: rgb(17,24,39);
+}
+
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
@@ -48,6 +57,7 @@
 .projects_box .project:hover .info_box{
   bottom: 0%;
 }
+
 
 @media only screen and (min-width: 991px) {
   body {
