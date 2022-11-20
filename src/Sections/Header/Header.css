@@ -8,11 +8,11 @@ header img.svg01 {
 }
 
 header img.svg02 {
-    width: 30rem;
-    height: 30rem;
+    width: fit-content;
+    height: fit-content;
     position: absolute;
     top: 50vh;
-    right: -15rem;
+    right: 0;
     transform: translateY(-30%);
     z-index: -1;
 }

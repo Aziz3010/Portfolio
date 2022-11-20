@@ -7,7 +7,7 @@ import { IoLogoWhatsapp } from "react-icons/io";
 import { SiGmail } from "react-icons/si";
 import myPhoto from "../../assets/image/Ahmed Abdelaziz.jpg";
 import svg01 from "../../assets/svg/blob.svg";
-import svg02 from "../../assets/svg/blob (1).svg";
+import svg02 from "../../assets/svg/graph.png";
 import "./Header.css";
 
 const Header = () => {
