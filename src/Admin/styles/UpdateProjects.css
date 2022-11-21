@@ -1,0 +1,14 @@
+.updateProducts {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 3rem 2rem;
+}
+
+.updateProducts div a {
+    background-color: teal;
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: #fff;
+}
