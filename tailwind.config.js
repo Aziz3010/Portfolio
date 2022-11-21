@@ -7,6 +7,9 @@ module.exports = {
       fontFamily: {
         burtons: "burtons",
       },
+      colors: {
+        "like-parent": "#f1f1f1",
+      }
     },
   },
   plugins: [],

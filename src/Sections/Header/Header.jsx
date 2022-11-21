@@ -39,7 +39,7 @@ const Header = () => {
                 <h1 className="text-2xl font-burtons select-none dark:text-white" onClick={clickOnLogo}>portfolio</h1>
                 <img src={svg01} alt="svg01" className='svg01' />
                 <ul className='flex items-center'>
-                    <li className='cursor-pointer text-lg dark:text-white' onClick={darkMode}> {toggleDarkMode ? <BsFillSunFill /> : <BsMoonStarsFill /> }</li>
+                    <li className='cursor-pointer text-lg dark:text-white' onClick={darkMode}> {toggleDarkMode ? <BsFillSunFill /> : <BsMoonStarsFill />}</li>
                     {toggleAdminIcon ? <li className='text-2xl ml-4 dark:text-white'><Link to={"/login"}><MdAdminPanelSettings /></Link></li> : null}
                     <li><a href='/resume.pdf' download="Ahmed Abdelaziz Resume" className='bg-gradient-to-r from-cyan-500 to-teal-500 px-4 py-2 rounded-md capitalize ml-4 text-white'>resume</a></li>
                 </ul>
