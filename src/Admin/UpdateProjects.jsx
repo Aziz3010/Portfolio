@@ -1,5 +1,6 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import "./styles/UpdateProjects.css";
 
 const UpdateProjects = () => {
@@ -10,15 +11,21 @@ const UpdateProjects = () => {
   const [productTools, setProductTools] = useState("");
   const [productImage, setProductImage] = useState(null);
 
+  const {projectId} = useParams(null);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '' && productImage !== null) {
       const formData = new FormData(e.target);
+      formData.append("projectId", projectId);
       formData.append("productName", productName);
       formData.append("productArrange", productArrange);
       formData.append("productUrl", productUrl);
       formData.append("productTools", productTools);
       formData.append("productImage", productImage);
+
+
+      updateProductFunc(formData);
 
       // get token from localstorage
       // write headers
@@ -28,6 +35,19 @@ const UpdateProjects = () => {
     }
 
   };
+
+    // //////////////////////////////////////
+    const config = {
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': "multipart/form-data",
+      }
+    };
+    const updateProductFunc = async (formData) => {
+      let { data } = await axios.post("http://localhost/MyPortfolioAPI/UpdateProject.php", formData, config);
+      console.log(data);
+    };
+    // //////////////////////////////////////
 
   return (
     <section className='updateProducts'>

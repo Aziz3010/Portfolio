@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./styles/addProjects.css";
+import axios from "axios";
 
 const AddProjects = () => {
   const [errorMSG, setErrorMSG] = useState("");
@@ -13,12 +14,15 @@ const AddProjects = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '' && productImage !== null) {
+      setErrorMSG("");
       const formData = new FormData(e.target);
       formData.append("productName", productName);
       formData.append("productArrange", productArrange);
       formData.append("productUrl", productUrl);
       formData.append("productTools", productTools);
       formData.append("productImage", productImage);
+
+      addProductFunc(formData);
 
       // get token from localstorage
       // write headers
@@ -28,6 +32,19 @@ const AddProjects = () => {
     }
 
   };
+
+  // //////////////////////////////////////
+  const config = {
+    mode: 'no-cors',
+    headers: {
+      'Content-Type': "multipart/form-data",
+    }
+  };
+  const addProductFunc = async (formData) => {
+    let { data } = await axios.post("http://localhost/MyPortfolioAPI/InsertProjects.php", formData, config);
+    console.log(data);
+  };
+  // //////////////////////////////////////
 
   return (
     <section className='addProducts'>

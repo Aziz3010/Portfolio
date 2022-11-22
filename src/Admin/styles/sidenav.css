@@ -2,7 +2,7 @@
     background-color: #f1f1f1;
     flex: 1;
     padding: 30px 50px 30px 270px;
-    height: 100vh;
+    min-height: 100vh;
     transition: padding-left 500ms;
 }
 
