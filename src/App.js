@@ -7,37 +7,32 @@ import Login from "./Admin/Login";
 import Home from "./Home/Home";
 import Settings from "./Admin/Settings";
 import AllProjects from "./Admin/AllProjects";
+import { ContextProvider } from "./Context/Auth";
+import Logout from "./Admin/Logout";
+import RequireAuth from "./Context/RequireAuth";
+import SecondRequireAuth from "./Context/SecondRequireAuth";
 
 const App = () => {
-  /*
-  مع كل تغير في اللوكيشن يعمل فيتش و يشوف 
-  هل التوكن المسجل باللوكالاستوريج
-  هو نفس التوكن المسجل في الداتا بيز ولا مختلف
-  لو هو هو يقبل الدخول
-  لو مختلف يحوله علي الصفحة الرئيسية
-  Send in header [Token + Email]
-
-
-
-  http://myportfolioapi.rf.gd/
-  */
-
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/login" element={<Login />} />
-
-      {/* Auth */}
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/addproducts" element={<AddProjects />} />
-      <Route path="/updateprojects/:projectId" element={<UpdateProjects />} />
-      <Route path="/projects" element={<AllProjects />} />
-      <Route path="/settings" element={<Settings />} />
-      {/* Auth */}
-
-      <Route path="*" element={<Navigate to={"/"} replace />} />
-    </Routes>
+    <ContextProvider>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<SecondRequireAuth><Login /></SecondRequireAuth>} />
+        {/* Auth */}
+        <Route path="/dashboard" element={<RequireAuth><Dashboard /></RequireAuth>} />
+        <Route path="/addproducts" element={<RequireAuth><AddProjects /></RequireAuth>} />
+        <Route path="/updateprojects/:projectId" element={<RequireAuth><UpdateProjects /></RequireAuth>} />
+        <Route path="/projects" element={<RequireAuth><AllProjects /></RequireAuth>} />
+        <Route path="/settings" element={<RequireAuth><Settings /></RequireAuth>} />
+        <Route path="/logout" element={<RequireAuth><Logout /></RequireAuth>} />
+        {/* Auth */}
+        <Route path="*" element={<Navigate to={"/"} replace />} />
+      </Routes>
+    </ContextProvider>
   );
 };
 
 export default App;
+/*
+  http://myportfolioapi.rf.gd/
+*/

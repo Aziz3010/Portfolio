@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import { MdAdminPanelSettings } from "react-icons/md";
 import { BsMoonStarsFill, BsFillSunFill } from "react-icons/bs";
@@ -9,11 +9,13 @@ import myPhoto from "../../assets/image/Ahmed Abdelaziz.jpg";
 import svg01 from "../../assets/svg/blob.svg";
 import svg02 from "../../assets/svg/graph.png";
 import "./Header.css";
+import { UserContext } from '../../Home/Home';
 
 const Header = () => {
     const [toggleDarkMode, setToggleDarkMode] = useState(false);
     const [toggleAdminIcon, setToggleAdminIcon] = useState(false);
     const [clickedNumberOnLogo, setClickedNumberOnLogo] = useState(0);
+    const user = useContext(UserContext);
     const clickOnLogo = () => {
         setClickedNumberOnLogo(clickedNumberOnLogo + 1);
     };
@@ -46,22 +48,22 @@ const Header = () => {
             </nav>
             <section className='text-center px-1'>
                 <div className="caption mb-5">
-                    <h2 className='text-5xl py-2 text-teal-600 font-medium'>Ahmed Abdelaziz</h2>
-                    <h3 className='text-2xl py-2 dark:text-white'>Full stack developer</h3>
-                    <p className='text-md py-5 leading-8 text-gray-500 dark:text-gray-400'>Lorem ipsum dolor sit amet consectetur ipsum dolor sit amet consectetur adipisicing elit. Voluptates, molestiae.</p>
+                    <h2 className='text-5xl py-2 text-teal-600 font-medium capitalize'>{user[0]?.username}</h2>
+                    <h3 className='text-2xl py-2 dark:text-white'>{user[0]?.title}</h3>
+                    <p className='text-md py-5 leading-8 text-gray-500 dark:text-gray-400'>{user[0]?.paragraph01}</p>
                 </div>
                 <ul className='social flex items-center justify-center gap-5 mb-10'>
                     <li>
-                        <a href='https://github.com/Aziz3010?tab=repositories' rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><AiFillGithub /></a>
+                        <a href={user[0]?.github} rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><AiFillGithub /></a>
                     </li>
                     <li>
-                        <a href='https://www.linkedin.com/in/ahmedgomaa3/' rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><AiFillLinkedin /></a>
+                        <a href={user[0]?.linkedin} rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><AiFillLinkedin /></a>
                     </li>
                     <li>
-                        <a href='mailto:a.abdelazizg@gmail.com?Subject=Email from website' rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><SiGmail /></a>
+                        <a href={`mailto:${user[0]?.gmail}?Subject=Email from website`} rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><SiGmail /></a>
                     </li>
                     <li>
-                        <a href='https://wa.me/201069855288' rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><IoLogoWhatsapp /></a>
+                        <a href={`https://wa.me/${user[0]?.whatsapp}`} rel="noreferrer" target={"_blank"} className="text-gray-600 dark:text-gray-400 hover:dark:text-gray-200 hover:text-gray-500 p-2 rounded-full block text-3xl"><IoLogoWhatsapp /></a>
                     </li>
                 </ul>
                 <img src={svg02} alt="svg02" className='svg02' />

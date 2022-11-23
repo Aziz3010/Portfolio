@@ -2,35 +2,32 @@ import React, { useEffect, useState } from 'react';
 import SideNav from './SideNav';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import axios from '../API/Axios';
+import { allProductFunc } from '../API/AllProjects';
 
 const AllProjects = () => {
     const [allProduct, setAllProduct] = useState([]);
     const [toggleContentView, setToggleContentView] = useState(false);
     const [error, setError] = useState('');
-    const config = {
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': "application/json; charset=UTF-8",
-        }
-    };
-
     const handleDelete = async (projectId) => {
-        let { data } = await axios.get(`http://localhost/MyPortfolioAPI/DeleteProjects.php?id=${projectId}`, config);
+        let { data } = await axios.get(`DeleteProjects.php?id=${projectId}`, {
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': "application/json; charset=UTF-8",
+            }
+        });
         if (data.msg === "Project deleted.") {
-            allProductFunc();
+            getAllProduct();
         } else {
             setError(data.msg);
         }
     };
-
-    const allProductFunc = async () => {
-        let { data } = await axios.get("http://localhost/MyPortfolioAPI/AllProjects.php", config);
+    const getAllProduct = async () => {
+        let data = await allProductFunc();
         setAllProduct(data);
     };
-
     useEffect(() => {
-        allProductFunc();
+        getAllProduct();
     }, []);
 
     return (
@@ -65,7 +62,7 @@ const AllProjects = () => {
                                                 </td>
                                                 <td className="border font-medium border-slate-300 p-3">{product.productName}</td>
                                                 <td className="border font-medium border-slate-300 p-3">
-                                                    <a href={product.productUrl} target={'_blank'}>{product.productUrl}</a>
+                                                    <a href={product.productUrl} target={'_blank'} rel="noreferrer">{product.productUrl}</a>
                                                 </td>
                                                 <td className="border font-medium border-slate-300 p-3">{product.productArrange}</td>
                                                 <td className="border font-medium border-slate-300 p-3">{product.productDisplay === "1" ? "Yes" : "No"}</td>

@@ -1,32 +1,23 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import "./Projects.css";
+import { allProductFunc } from '../../API/AllProjects';
+import { UserContext } from '../../Home/Home';
 
 const Projects = () => {
     const [allProduct, setAllProduct] = useState([]);
-
-    // //////////////////////////////////////
-    const config = {
-        mode: 'no-cors',
-        headers: {
-            'Content-Type': "application/json; charset=UTF-8",
-        }
-    };
-    const allProductFunc = async () => {
-        let { data } = await axios.get("http://localhost/MyPortfolioAPI/AllProjects.php", config);
+    const user = useContext(UserContext);
+    const getAllProduct = async () => {
+        let data = await allProductFunc();
         setAllProduct(data);
     };
-
     useEffect(() => {
-        allProductFunc();
+        getAllProduct();
     }, []);
-    // //////////////////////////////////////
 
     return (
         <section className='projects'>
             <h3 className='text-3xl py-1 text-center mb-5 dark:text-white'>Portfolio</h3>
-            <p className='text-md leading-8 text-gray-500 dark:text-gray-400 text-center'>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Similique unde tenetur reprehenderit quo atque necessitatibus dicta voluptate alias corporis minima!
-                Lorem ipsum dolor sit amet, <span className='text-teal-500'>consectetur</span> elit. Similique unde tenetur reprehenderit quo atque necessitatibus dicta <span className='text-teal-500'>voluptate</span> alias corporis minima!</p>
+            <p className='text-md leading-8 text-gray-500 dark:text-gray-400 text-center'>{user[0]?.paragraph03}</p>
 
             <div className="projects_box flex flex-col gap-10 py-10 md:flex-row md:flex-wrap">
                 {

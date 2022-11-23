@@ -1,46 +1,46 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import "./styles/login.css";
+import { loginFunc } from '../API/Login';
+import { useAuth } from '../Context/Auth';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const auth = useAuth();
+  const adminEmail = "a.abdelazizg@gmail.com";
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const [errorMSG, setErrorMSG] = useState("");
-  const adminEmail = "a.abdelazizg@gmail.com";
   const navigate = useNavigate();
-  
+
+  const sendDataToServerForLogin = async (formData) => {
+    const userData = await loginFunc(formData);
+    if (userData.access_token) {
+      auth.loginFunc();
+      sessionStorage.setItem("access_token",JSON.stringify(userData.access_token));
+      navigate("/dashboard", {replace: true});
+    } else {
+      setErrorMSG("Email or Password aren't correct.");
+      sessionStorage.removeItem("access_token");
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (adminEmail !== "" && passwordInputValue !== "") {
       setErrorMSG("");
-      const formData = new FormData(e.target);
+      const formData = new FormData();
       formData.append("email", adminEmail);
       formData.append("password", passwordInputValue);
-
-      // send data to server
-      // then receive the token from db
-      // then put the token in localstorage
-      // any action in dashboard - i must check the db token with localstorage token
-
-
+      sendDataToServerForLogin(formData);
     } else {
-      setErrorMSG("All fields are required");
+      setErrorMSG("Password is required");
     }
-
-
-    navigate("/dashboard");
   };
 
   return (
     <section className='login'>
       <div className="w-full max-w-xs">
         <form onSubmit={handleSubmit} className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="email">
-              Email
-            </label>
-            <input value={adminEmail} disabled className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="email" type="email" placeholder="Email" />
-          </div>
           <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="password">
               Password

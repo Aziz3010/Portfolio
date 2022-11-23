@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import "./styles/addProjects.css";
-import axios from "axios";
+import { useAuth } from '../Context/Auth';
+import Axios from '../API/Axios';
+const Insert_URL = "InsertProjects.php";
 
 const AddProjects = () => {
   const [errorMSG, setErrorMSG] = useState("");
@@ -10,30 +12,34 @@ const AddProjects = () => {
   const [productUrl, setProductUrl] = useState("");
   const [productTools, setProductTools] = useState("");
   const [productImage, setProductImage] = useState(null);
+  const navigate = useNavigate();
+  const auth = useAuth();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '' && productImage !== null) {
       setErrorMSG("");
-      const formData = new FormData(e.target);
-      formData.append("productName", productName);
-      formData.append("productArrange", productArrange);
-      formData.append("productUrl", productUrl);
-      formData.append("productTools", productTools);
-      formData.append("productImage", productImage);
-
-      addProductFunc(formData);
-
-      // get token from localstorage
-      // write headers
-      // send data to db by axios
+      const access_token = JSON.parse(sessionStorage.getItem("access_token"));
+      // console.log(access_token);
+      if (access_token) {
+        const formData = new FormData(e.target);
+        formData.append("productName", productName);
+        formData.append("productArrange", productArrange);
+        formData.append("productUrl", productUrl);
+        formData.append("productTools", productTools);
+        formData.append("productImage", productImage);
+        formData.append("access_token", access_token);
+        addProductFunc(formData);
+      } else {
+        auth.logoutFunc();
+        navigate("/login", { replace: true });
+      }
     } else {
       setErrorMSG("All fields are required");
     }
 
   };
 
-  // //////////////////////////////////////
   const config = {
     mode: 'no-cors',
     headers: {
@@ -41,10 +47,9 @@ const AddProjects = () => {
     }
   };
   const addProductFunc = async (formData) => {
-    let { data } = await axios.post("http://localhost/MyPortfolioAPI/InsertProjects.php", formData, config);
+    let { data } = await Axios.post(Insert_URL, formData, config);
     console.log(data);
   };
-  // //////////////////////////////////////
 
   return (
     <section className='addProducts'>
