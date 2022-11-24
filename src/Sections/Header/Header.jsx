@@ -27,7 +27,6 @@ const Header = () => {
             setToggleAdminIcon(!toggleAdminIcon);
             setClickedNumberOnLogo(0);
         }
-
         if (toggleDarkMode) {
             window.document.body.classList.add('dark');
         } else {

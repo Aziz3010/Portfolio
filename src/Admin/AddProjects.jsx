@@ -14,7 +14,6 @@ const AddProjects = () => {
   const [productImage, setProductImage] = useState(null);
   const navigate = useNavigate();
   const auth = useAuth();
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '' && productImage !== null) {
@@ -39,7 +38,6 @@ const AddProjects = () => {
     }
 
   };
-
   const config = {
     mode: 'no-cors',
     headers: {

@@ -9,6 +9,7 @@ const Logout = () => {
   useEffect(()=>{
     auth.logoutFunc();
     sessionStorage.removeItem("access_token");
+    // call api to remove token
     navigate("/", {replace:true});
   })
 

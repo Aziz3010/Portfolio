@@ -4,6 +4,7 @@ const UserInfo_URL = "UserInfo.php";
 const config = {
     mode: 'no-cors',
     headers: {
+        "Access-Control-Allow-Origin": "*",
         'Content-Type': "application/json; charset=UTF-8",
     }
 };
