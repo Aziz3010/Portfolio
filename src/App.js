@@ -11,10 +11,12 @@ import { ContextProvider } from "./Context/Auth";
 import Logout from "./Admin/Logout";
 import RequireAuth from "./Context/RequireAuth";
 import SecondRequireAuth from "./Context/SecondRequireAuth";
+import { AllProjectsContextProvider } from "./Context/AllProjects";
 
 const App = () => {
   return (
     <ContextProvider>
+    <AllProjectsContextProvider>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<SecondRequireAuth><Login /></SecondRequireAuth>} />
@@ -28,11 +30,9 @@ const App = () => {
         {/* Auth */}
         <Route path="*" element={<Navigate to={"/"} replace />} />
       </Routes>
+    </AllProjectsContextProvider>
     </ContextProvider>
   );
 };
 
 export default App;
-/*
-  http://myportfolioapi.rf.gd/
-*/

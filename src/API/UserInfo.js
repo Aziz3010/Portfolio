@@ -1,5 +1,5 @@
 import Axios from "./Axios";
-const UserInfo_URL = "UserInfo.php";
+const UserInfo_URL = "/UserInfo.php";
 
 const config = {
     headers: {

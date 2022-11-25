@@ -1,15 +1,16 @@
-const UserInfo_URL = "https://myportfolioapi.rf.gd/UserInfo.php";
-// const UserInfo_URL = "http://localhost/MyPortfolioAPI/UserInfo.php";
+// const UserInfo_URL = "https://myportfolioapi.rf.gd/UserInfo.php";
+const UserInfo_URL = "http://localhost/MyPortfolioAPI/UserInfo.php";
 
 export const userInfoFuncFetch = async () => {
-  let res = await fetch(UserInfo_URL, {
+  const option = {
     method: "GET",
-    // mode: "cors",
+    mode: "cors",
     headers: {
-      "Content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    }
-  });
-  let data = await res.json();
+      'Content-Type': "application/json; charset=UTF-8",
+    },
+  };
+
+  const res = await fetch(UserInfo_URL, option);
+  const data = await res.json();
   console.log(data);
 };
