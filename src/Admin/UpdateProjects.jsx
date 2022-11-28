@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import "./styles/UpdateProjects.css";
 import Axios from '../API/Axios';
+import { toast } from 'react-toastify';
+
 const Update_URL = "UpdateProject.php";
+const OneProduct_URL = "OneProject.php";
 
 const UpdateProjects = () => {
   const [errorMSG, setErrorMSG] = useState("");
@@ -12,9 +15,10 @@ const UpdateProjects = () => {
   const [productTools, setProductTools] = useState("");
   const [productImage, setProductImage] = useState(null);
   const { projectId } = useParams(null);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '' && productImage !== null) {
+    if (productName !== '' && productArrange !== '' && productUrl !== '' && productTools !== '') {
       const formData = new FormData(e.target);
       formData.append("projectId", projectId);
       formData.append("productName", productName);
@@ -36,8 +40,25 @@ const UpdateProjects = () => {
   };
   const updateProductFunc = async (formData) => {
     let { data } = await Axios.post(Update_URL, formData, config);
-    console.log(data);
+    if (data.msg === "Project updated.") {
+      toast.success("Project updated.");
+      navigate("/projects");
+    } else {
+      toast.error("Failed to update the project.");
+    }
   };
+  const oneProductFunc = async (projectId) => {
+    let { data } = await Axios.get(`${OneProduct_URL}?projectId=${projectId}`);
+    if (data.length > 0) {
+      setProductName(data[0].productName);
+      setProductArrange(data[0].productArrange);
+      setProductUrl(data[0].productUrl);
+      setProductTools(data[0].productTools);
+    }
+  };
+  useEffect(() => {
+    oneProductFunc(projectId);
+  }, [projectId]);
 
   return (
     <section className='updateProducts'>
@@ -52,14 +73,14 @@ const UpdateProjects = () => {
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-Product-name">
               Product Name
             </label>
-            <input onChange={(e) => { setProductName(e.target.value) }} name='Product-Name' className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-Product-name" type="text" placeholder="Ecommerce" />
+            <input value={productName} onChange={(e) => { setProductName(e.target.value) }} name='Product-Name' className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-Product-name" type="text" placeholder="Ecommerce" />
           </div>
 
           <div className="w-full md:w-1/2 px-3">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-Product-Arrange">
               Product Arrange
             </label>
-            <input onChange={(e) => { setProductArrange(e.target.value) }} name='Product-Arrange' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Arrange" type="number" placeholder="1" />
+            <input value={productArrange} onChange={(e) => { setProductArrange(e.target.value) }} name='Product-Arrange' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Arrange" type="number" placeholder="1" />
           </div>
         </div>
 
@@ -68,7 +89,7 @@ const UpdateProjects = () => {
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-Product-Url">
               Product Url
             </label>
-            <input onChange={(e) => { setProductUrl(e.target.value) }} name='Product-Url' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Url" type="text" placeholder="www.example.com" />
+            <input value={productUrl} onChange={(e) => { setProductUrl(e.target.value) }} name='Product-Url' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Url" type="text" placeholder="www.example.com" />
           </div>
         </div>
 
@@ -77,7 +98,7 @@ const UpdateProjects = () => {
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-Product-Tools">
               Product Tools
             </label>
-            <input onChange={(e) => { setProductTools(e.target.value) }} name='Product-Tools' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Tools" type="text" placeholder="Html, css, javascript" />
+            <input value={productTools} onChange={(e) => { setProductTools(e.target.value) }} name='Product-Tools' className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-Product-Tools" type="text" placeholder="Html, css, javascript" />
           </div>
         </div>
 

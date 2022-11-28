@@ -12,9 +12,12 @@ import Logout from "./Admin/Logout";
 import RequireAuth from "./Context/RequireAuth";
 import SecondRequireAuth from "./Context/SecondRequireAuth";
 import { AllProjectsContextProvider } from "./Context/AllProjects";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const App = () => {
-  return (
+  return (<>
+    <ToastContainer />
     <ContextProvider>
     <AllProjectsContextProvider>
       <Routes>
@@ -32,6 +35,7 @@ const App = () => {
       </Routes>
     </AllProjectsContextProvider>
     </ContextProvider>
+    </>
   );
 };
 

@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { LogoutFunc } from '../API/Logout';
 import { useAuth } from '../Context/Auth'
 
 const Logout = () => {
   const auth = useAuth();
   const navigate = useNavigate();
+
   const logoutCall = async () => {
     const access_token = JSON.parse(sessionStorage.getItem("access_token"));
     const formData = new FormData();
@@ -15,8 +17,10 @@ const Logout = () => {
       auth.logoutFunc();
       sessionStorage.removeItem("access_token");
       navigate("/", { replace: true });
+      toast.success("Logout successfuly.");
     }
   };
+  
   useEffect(() => {
     logoutCall();
   })

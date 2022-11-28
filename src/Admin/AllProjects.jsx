@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import SideNav from './SideNav';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from '../API/Axios';
 import { allProductFunc } from '../API/AllProjects';
+import { toast } from 'react-toastify';
 
 const AllProjects = () => {
     const [allProduct, setAllProduct] = useState([]);
     const [toggleContentView, setToggleContentView] = useState(false);
-    const [error, setError] = useState('');
+    const navigate = useNavigate();
     const handleDelete = async (projectId) => {
         let { data } = await axios.get(`DeleteProjects.php?id=${projectId}`, {
             mode: 'no-cors',
@@ -18,8 +19,10 @@ const AllProjects = () => {
         });
         if (data.msg === "Project deleted.") {
             getAllProduct();
+            toast.success("Project deleted.");
+            navigate("/projects");
         } else {
-            setError(data.msg);
+            toast.error("Failed to delete the project.");
         }
     };
     const getAllProduct = async () => {
@@ -36,7 +39,6 @@ const AllProjects = () => {
             <section className={`ContentView ${toggleContentView ? "sideNavClosed" : ""}`}>
                 <h2 className='text-lg font-medium mb-5'>Projects</h2>
                 {/* Table */}
-                {error !== "" ? <p className='bg-red-500 text-white text-center w-full'>{error}</p> : ''}
                 <div className="overflow-x-scroll">
                     <table className="border-collapse border border-slate-400 table-auto w-full text-center">
                         <thead className='bg-slate-200'>
@@ -58,7 +60,7 @@ const AllProjects = () => {
                                             <tr key={index}>
                                                 <td className="border font-medium border-slate-300 p-3">{index + 1}</td>
                                                 <td className="border font-medium border-slate-300 p-3">
-                                                    <img src={`http://localhost/MyPortfolioAPI/uploads/${product.productImage}`} alt={product.productName} className='w-20 h-20 inline-block object-cover' />
+                                                    <img src={product.productImage !== "" && product.productImage !== null ? `http://localhost/MyPortfolioAPI/uploads/${product.productImage}` : `http://localhost/MyPortfolioAPI/uploads/default.png`} alt={product.productName} className='w-20 h-20 inline-block object-cover' />
                                                 </td>
                                                 <td className="border font-medium border-slate-300 p-3">{product.productName}</td>
                                                 <td className="border font-medium border-slate-300 p-3">
@@ -68,7 +70,7 @@ const AllProjects = () => {
                                                 <td className="border font-medium border-slate-300 p-3">{product.productDisplay === "1" ? "Yes" : "No"}</td>
                                                 <td className="border border-slate-300 p-3">
                                                     <div className='flex flex-row justify-center items-center gap-4'>
-                                                        <Link to={`/updateprojects/${product.id}`} className='bg-orange-500 hover:bg-orange-400 text-white font-bold py-2 px-4 rounded'><AiFillEdit /></Link>
+                                                        <Link to={`/updateprojects/${product.id}`} className='bg-green-600 hover:bg-green-500 text-white font-bold py-2 px-4 rounded'><AiFillEdit /></Link>
                                                         <button onClick={() => { handleDelete(product.id) }} className='bg-red-800 hover:bg-red-700 text-white font-bold py-2 px-4 rounded'><AiFillDelete /></button>
                                                     </div>
                                                 </td>

@@ -3,6 +3,7 @@ import "./styles/login.css";
 import { loginFunc } from '../API/Login';
 import { useAuth } from '../Context/Auth';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const Login = () => {
   const auth = useAuth();
@@ -17,9 +18,11 @@ const Login = () => {
       auth.loginFunc();
       sessionStorage.setItem("access_token",JSON.stringify(userData.access_token));
       navigate("/dashboard", {replace: true});
+      toast.success("Login successfuly.");
     } else {
       setErrorMSG("Email or Password aren't correct.");
       sessionStorage.removeItem("access_token");
+      toast.error("Failed to login.");
     }
   };
 

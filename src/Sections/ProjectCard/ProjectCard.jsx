@@ -4,7 +4,7 @@ const ProjectCard = ({ project }) => {
     const { productImage, productName, productTools, productUrl } = project;
     return (
         <div className='project basis-1/3 flex-1 max-h-96'>
-            <img src={`http://localhost/MyPortfolioAPI/uploads/${productImage}`} alt={productName} className='object-cover' />
+            <img src={productImage !== "" && productImage !== null ? `http://localhost/MyPortfolioAPI/uploads/${productImage}` : `http://localhost/MyPortfolioAPI/uploads/default.png`} alt={productName} className='object-cover' />
             <div className="info_box">
                 <h3 className='text-white font-medium'>Tools</h3>
                 <ul className="tools_box flex flex-row flex-wrap justify-center">

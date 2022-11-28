@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 import { updateUserInfoFunc } from '../API/UpdateUserInfo';
 import SideNav from './SideNav';
 
@@ -7,7 +8,6 @@ const Settings = () => {
     const [socialSection, setSocialSection] = useState(false);
     const [titleSection, setTitleSection] = useState(false);
     const [descriptionSection, setDescriptionSection] = useState(false);
-    const [error, setError] = useState('');
     const sectionDiplay = (sectionId) => {
         switch (sectionId) {
             case "social":
@@ -38,15 +38,17 @@ const Settings = () => {
         const inputValue = e.target.children[0].value;
         const formData = new FormData();
         if (inputValue !== "") {
-            setError('');
             formData.append(inputName, inputValue);
             formData.append("colName", inputName);
             const data = await updateUserInfoFunc(formData);
             if (data?.msg === "User info updated.") {
                 e.target.children[0].value = "";
+                toast.success(`${inputName} updated.`);
+            }else {
+                toast.error(`Failed to update ${inputName}.`);
             }
         } else {
-            setError(`${inputName?.toUpperCase()} can't be empty`);
+            toast.error(`${inputName?.charAt(0).toUpperCase()+inputName?.slice(1,inputName.length)} can't be empty`);
         }
     };
 
@@ -61,9 +63,6 @@ const Settings = () => {
                     <div onClick={(e) => { sectionDiplay(e.target.id) }} id="title" className='bg-teal-500 hover:bg-teal-600 basis-full md:basis-1/4 flex-1 p-3 rounded-md text-center text-white text-xl cursor-pointer'>Title</div>
                     <div onClick={(e) => { sectionDiplay(e.target.id) }} id="description" className='bg-teal-500 hover:bg-teal-600 basis-full md:basis-1/4 flex-1 p-3 rounded-md text-center text-white text-xl cursor-pointer'>Description</div>
                 </div>
-                {
-                    error !== "" ? <div className='text-center w-full rounded mb-8 bg-orange-400 text-white py-1 px-2'>{error}</div> : null
-                }
                 {
                     socialSection ?
                         <div className="urls">
