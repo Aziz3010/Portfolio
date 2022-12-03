@@ -4,20 +4,14 @@ import { createContext, useContext, useState } from "react";
 export const AuthContext = createContext(null);
 
 // create provider
-
-/* Here i should check on the access token */
-
 export const ContextProvider = ({ children }) => {
   const [userIsLogged, setUserIsLogged] = useState(false);
   const loginFunc = () => {
     setUserIsLogged(true);
-    // console.log("login");
   };
   const logoutFunc = () => {
     setUserIsLogged(false);
-    // console.log("logout");
   };
-  // console.log(userIsLogged);
   return (
     <AuthContext.Provider value={{ userIsLogged, loginFunc, logoutFunc }}>
       {children}

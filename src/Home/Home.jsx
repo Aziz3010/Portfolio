@@ -3,7 +3,6 @@ import Header from "../Sections/Header/Header";
 import Services from "../Sections/Services/Services";
 import Projects from "../Sections/Projects/Projects";
 import { userInfoFunc } from '../API/UserInfo';
-
 export const UserContext = React.createContext();
 
 const Home = () => {
@@ -12,11 +11,6 @@ const Home = () => {
         const userData = await userInfoFunc();
         setUser(userData);
     };
-    // const getInfoFuncFetch = async () => {
-    //     const userData = await userInfoFuncFetch(); /////// Test
-    //     // setUser(userData);
-    //     // console.log(userData);
-    // };
     useEffect(() => {
         getUserData();
         // getInfoFuncFetch();
