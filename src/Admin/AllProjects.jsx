@@ -60,7 +60,7 @@ const AllProjects = () => {
                                             <tr key={index}>
                                                 <td className="border font-medium border-slate-300 p-3">{index + 1}</td>
                                                 <td className="border font-medium border-slate-300 p-3">
-                                                    <img src={product.productImage !== "" && product.productImage !== null ? `http://localhost/MyPortfolioAPI/uploads/${product.productImage}` : `http://localhost/MyPortfolioAPI/uploads/default.png`} alt={product.productName} className='w-20 h-20 inline-block object-cover' />
+                                                    <img src={product.productImage !== "" && product.productImage !== null ? `https://lowermost-heel.000webhostapp.com/uploads/${product.productImage}` : `https://lowermost-heel.000webhostapp.com/uploads/default.png`} alt={product.productName} className='w-20 h-20 inline-block object-cover' />
                                                 </td>
                                                 <td className="border font-medium border-slate-300 p-3">{product.productName}</td>
                                                 <td className="border font-medium border-slate-300 p-3">
